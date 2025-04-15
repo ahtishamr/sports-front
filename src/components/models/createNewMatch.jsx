@@ -387,112 +387,145 @@ const CreateMatchModal = () => {
             {currentStep === 2 && (
               <div className="match-details-step">
                 <div className="row g-4">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label className="form-label">Sport Category <span className="text-danger">*</span></label>
-                      <div className="dropdown">
-                        <button 
-                          className={`form-select form-select-lg text-start ${errors.category ? 'is-invalid' : ''}`}
-                          type="button" 
-                          data-bs-toggle="dropdown"
-                        >
-                          {selectedCategory ? (
-                            <>
-                              <i className={`fas ${selectedCategory.icon} me-2`}></i>
-                              {selectedCategory.name}
-                            </>
-                          ) : 'Select Category'}
-                        </button>
-                        <ul className="dropdown-menu shadow w-100">
-                          {categories.map((category) => (
-                            <li key={category.name}>
-                              <button 
-                                className="dropdown-item" 
-                                type="button"
-                                onClick={() => handleCategorySelect(category)}
-                              >
-                                <i className={`fas ${category.icon} me-2`}></i> {category.name}
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                        {errors.category && <div className="invalid-feedback">{errors.category}</div>}
-                      </div>
-                    </div>
-                  </div>
+                <div className="col-md-6">
+  <div className="form-group">
+    <label className="form-label mx-3">Sport Category <span className="text-danger">*</span></label>
+    <div className="dropdown">
+      <button 
+        className={`form-select form-select-lg text-start ${errors.category ? 'is-invalid' : ''}`}
+        type="button" 
+        data-bs-toggle="dropdown"
+        style={{ 
+          height: '40px',
+          width: '500px',
+          minWidth: '200px',
+          marginLeft: '12px'
+        }}
+      >
+        {selectedCategory ? (
+          <>
+            <i className={`fas ${selectedCategory.icon} me-2`}></i>
+            {selectedCategory.name}
+          </>
+        ) : 'Select Category'}
+      </button>
+      <ul className="dropdown-menu shadow w-100">
+        <li>
+          <button 
+            className="dropdown-item" 
+            type="button"
+            onClick={() => handleCategorySelect({name: 'Cricket', icon: 'fa-baseball'})}
+          >
+            <i className="fas fa-baseball me-2"></i> Cricket
+          </button>
+        </li>
+        <li>
+          <button 
+            className="dropdown-item" 
+            type="button"
+            onClick={() => handleCategorySelect({name: 'Tennis', icon: 'fa-table-tennis'})}
+          >
+            <i className="fas fa-table-tennis me-2"></i> Tennis
+          </button>
+        </li>
+        <li>
+          <button 
+            className="dropdown-item" 
+            type="button"
+            onClick={() => handleCategorySelect({name: 'Football', icon: 'fa-futbol'})}
+          >
+            <i className="fas fa-futbol me-2"></i> Football
+          </button>
+        </li>
+      </ul>
+      {errors.category && <div className="invalid-feedback">{errors.category}</div>}
+    </div>
+  </div>
+</div>
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label className="form-label">Match Date & Time <span className="text-danger">*</span></label>
+                      <label className="form-label mx-1">Match Date & Time <span className="text-danger">*</span></label >
                       <input
                         type="datetime-local"
                         className={`form-control form-control-lg ${errors.matchDatetime ? 'is-invalid' : ''}`}
                         value={formData.matchDatetime}
                         onChange={e => setFormData(prev => ({ ...prev, matchDatetime: e.target.value }))}
+                        style={{ 
+                          height: '20px',  // Custom height
+                          width: '500px',   // Full width of parent
+                          minWidth: '200px',
+                          marginLeft:'10px' // Minimum width (optional)
+                        }}
                       />
                       {errors.matchDatetime && <div className="invalid-feedback">{errors.matchDatetime}</div>}
                     </div>
                   </div>
+                  <div className="row mt-4">
+  <div className="col-md-4">
+    <div className="form-group">
+      <label className="form-label px-3">Security Deposit</label>
+      <div className="input-group border-0">
+        <select
+          className="form-select "
+          value={formData.security}
+          onChange={e => setFormData(prev => ({ ...prev, security: e.target.value }))}
+        >
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+        {formData.security === 'yes' && (
+          <input
+            type="number"
+            className={`form-control ${errors.securityAmount ? 'is-invalid' : ''}`}
+            placeholder="Amount"
+            value={formData.securityAmount}
+            onChange={e => setFormData(prev => ({ ...prev, securityAmount: e.target.value }))}
+          />
+        )}
+      </div>
+      {errors.securityAmount && <div className="invalid-feedback">{errors.securityAmount}</div>}
+    </div>
+  </div>
 
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <label className="form-label">Security Deposit</label>
-                      <div className="input-group">
-                        <select
-                          className="form-select"
-                          value={formData.security}
-                          onChange={e => setFormData(prev => ({ ...prev, security: e.target.value }))}
-                        >
-                          <option value="no">No</option>
-                          <option value="yes">Yes</option>
-                        </select>
-                        {formData.security === 'yes' && (
-                          <input
-                            type="number"
-                            className={`form-control ${errors.securityAmount ? 'is-invalid' : ''}`}
-                            placeholder="Amount"
-                            value={formData.securityAmount}
-                            onChange={e => setFormData(prev => ({ ...prev, securityAmount: e.target.value }))}
-                          />
-                        )}
-                      </div>
-                      {errors.securityAmount && <div className="invalid-feedback">{errors.securityAmount}</div>}
-                    </div>
-                  </div>
+  <div className="col-md-4">
+    <div className="form-group">
+      <label className="form-label mx-3">Match Bid</label>
+      <div className="input-group border-0">
+        <select
+          className="form-select"
+          value={formData.matchBid}
+          onChange={e => setFormData(prev => ({ ...prev, matchBid: e.target.value }))}
+        >
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+        </select>
+      </div>
+    </div>
+  </div>
 
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <label className="form-label">Match Bid</label>
-                      <select
-                        className="form-select"
-                        value={formData.matchBid}
-                        onChange={e => setFormData(prev => ({ ...prev, matchBid: e.target.value }))}
-                      >
-                        <option value="no">No</option>
-                        <option value="yes">Yes</option>
-                        <option value="100">100</option>
-                        <option value="200">200</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <label className="form-label">Ball Type</label>
-                      <select
-                        className="form-select"
-                        value={formData.ballType}
-                        onChange={e => setFormData(prev => ({ ...prev, ballType: e.target.value }))}
-                      >
-                        <option value="tape">Tape Ball</option>
-                        <option value="hard">Hard Ball</option>
-                      </select>
-                    </div>
-                  </div>
+  <div className="col-md-4">
+    <div className="form-group">
+      <label className="form-label mx-3">Ball Type</label>
+      <div className="input-group border-0">
+        <select
+          className="form-select"
+          value={formData.ballType}
+          onChange={e => setFormData(prev => ({ ...prev, ballType: e.target.value }))}
+        >
+          <option value="tape">Tape Ball</option>
+          <option value="hard">Hard Ball</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
 
                   <div className="col-md-8">
                     <div className="form-group">
-                      <label className="form-label">Venue <span className="text-danger">*</span></label>
+                      <label className="form-label mx-1">Venue <span className="text-danger">*</span></label>
                       <input
                         type="text"
                         className={`form-control form-control-lg ${errors.venue ? 'is-invalid' : ''}`}
@@ -505,7 +538,7 @@ const CreateMatchModal = () => {
 
                   <div className="col-md-4">
                     <div className="form-group">
-                      <label className="form-label">Overs <span className="text-danger">*</span></label>
+                      <label className="form-label mx-1 ">Overs <span className="text-danger">*</span></label>
                       <input
                         type="number"
                         className={`form-control form-control-lg ${errors.overs ? 'is-invalid' : ''}`}
@@ -518,7 +551,7 @@ const CreateMatchModal = () => {
 
                   <div className="col-md-4">
                     <div className="form-group">
-                      <label className="form-label">Province</label>
+                      <label className="form-label mx-1">Province</label>
                       <select
                         className="form-select form-select-lg"
                         value={formData.province}
@@ -534,7 +567,7 @@ const CreateMatchModal = () => {
 
                   <div className="col-md-4">
                     <div className="form-group">
-                      <label className="form-label">City</label>
+                      <label className="form-label mx-1">City</label>
                       <select
                         className="form-select form-select-lg"
                         value={formData.city}
@@ -548,33 +581,33 @@ const CreateMatchModal = () => {
                       </select>
                     </div>
                   </div>
-
                   <div className="col-md-4">
-                    <div className="form-group">
-                      <label className="form-label">Join Code</label>
-                      <div className="input-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={formData.joinCode}
-                          onChange={e => setFormData(prev => ({ ...prev, joinCode: e.target.value }))}
-                          placeholder="Auto-generated"
-                          readOnly
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-outline-secondary"
-                          onClick={() => setFormData(prev => ({ ...prev, joinCode: generateJoinCode() }))}
-                        >
-                          Generate
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+  <div className="form-group">
+    <label className="form-label mx-1">Join Code</label>
+    <div className="input-group border border-gray-300 rounded" style={{ height: "60px" }}>
+      <input
+        type="text"
+        className="form-control border-0"
+        value={formData.joinCode}
+        onChange={e => setFormData(prev => ({ ...prev, joinCode: e.target.value }))}
+        placeholder="Auto-generated"
+        readOnly
+      />
+      <button
+        type="button"
+        className="btn btn-outline-secondary border-0"
+        onClick={() => setFormData(prev => ({ ...prev, joinCode: generateJoinCode() }))}
+        style={{ fontSize: "14px" }}
+      >
+        Generate
+      </button>
+    </div>
+  </div>
+</div>
 
                   <div className="col-12">
                     <div className="form-group">
-                      <label className="form-label">Match Rules</label>
+                      <label className="form-label ">Match Rules</label>
                       {formData.rules.map((rule, index) => (
                         <div key={index} className="input-group mb-2">
                           <input
@@ -595,7 +628,7 @@ const CreateMatchModal = () => {
                       ))}
                       <button
                         type="button"
-                        className="btn btn-outline-primary btn-sm mt-2"
+                        className="btn btn-outline-primary btn-sm mt-2 mx-2"
                         onClick={addRule}
                       >
                         <i className="fas fa-plus me-1"></i> Add Rule
@@ -605,7 +638,7 @@ const CreateMatchModal = () => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label className="form-label">Dress Code</label>
+                      <label className="form-label mx-1">Dress Code</label>
                       <input
                         type="text"
                         className="form-control"
@@ -618,7 +651,7 @@ const CreateMatchModal = () => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label className="form-label">Payment Method</label>
+                      <label className="form-label mx-1">Payment Method</label>
                       <select
                         className="form-select"
                         value={formData.paymentMethod}

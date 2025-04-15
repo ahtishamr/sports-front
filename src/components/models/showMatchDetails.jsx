@@ -47,12 +47,13 @@ const MatchDetailsPopup = ({ match }) => {
 
     return (
         <>
-            <button 
+            <a 
+                href="#"
                 onClick={handleOpen} 
-                className="btn btn-link p-0 border-0 text-decoration-none text-muted small"
+                className=" p-0 border-0 text-decoration-none  small cursor-pointer"
             >
                 Match Details
-            </button>
+            </a>
 
             {showModal && (
                 <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
